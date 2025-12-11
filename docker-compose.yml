@@ -1,0 +1,66 @@
+services:
+  db:
+    image: postgres:15
+    container_name: soundreviews-db
+    environment:
+      POSTGRES_DB: soundreviews_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: ./server
+    container_name: soundreviews-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: soundreviews_dev
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: changeme
+    ports:
+      - "3000:3000"
+
+  web:
+    build: ./client
+    container_name: soundreviews-web
+    depends_on:
+      api:
+        condition: service_started
+    ports:
+      - "8080:80"
+
+  api-test:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.test
+    container_name: soundreviews-api-test
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: test
+      PORT: 3001
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: soundreviews_dev
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      JWT_SECRET: changeme
+    command: ["npm", "run", "test:ci"]
+
+volumes:
+  db-data:

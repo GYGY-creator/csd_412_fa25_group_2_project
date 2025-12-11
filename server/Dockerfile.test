@@ -1,0 +1,9 @@
+# syntax=docker/dockerfile:1
+FROM node:20-alpine
+WORKDIR /app
+COPY package.json package-lock.json* ./
+# Use npm install to avoid needing a lockfile in this environment
+RUN npm install
+COPY . .
+ENV NODE_ENV=test
+CMD ["npm", "run", "test:ci"]
