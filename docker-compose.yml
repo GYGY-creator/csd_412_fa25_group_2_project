@@ -31,11 +31,17 @@ services:
       DB_USER: postgres
       DB_PASSWORD: postgres
       JWT_SECRET: changeme
+      AUTO_SYNC_ON_DEV: "1"
+      SEED_ON_START: "1"
     ports:
       - "3000:3000"
 
   web:
-    build: ./client
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: http://localhost:3000
+        VITE_GOOGLE_MAPS_API_KEY: ${VITE_GOOGLE_MAPS_API_KEY:-}
     container_name: soundreviews-web
     depends_on:
       api:

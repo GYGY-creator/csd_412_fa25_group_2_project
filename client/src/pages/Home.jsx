@@ -1,24 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import api from '../api'
+import MapPanel from "../components/MapPanel";
+import "../styles/home.css";
 
 export default function Home() {
-  const [restaurants, setRestaurants] = useState([])
-
-  useEffect(() => {
-    api.get('/restaurants').then(({ data }) => setRestaurants(data))
-  }, [])
-
   return (
-    <div style={{ padding: 16 }}>
-      <h1>Restaurants</h1>
-      <ul>
-        {restaurants.map(r => (
-          <li key={r.id}>
-            <Link to={`/restaurants/${r.id}`}>{r.name}</Link> - {r.address}
-          </li>
-        ))}
-      </ul>
+    <div className="psrf">
+      <header className="psrf__topbar">
+        <h1 className="psrf__title">Puget Sound Restaurant Finder</h1>
+      </header>
+
+      <main className="psrf__layout">
+        <section className="psrf__map">
+        <MapPanel />
+        </section>
+
+        <aside className="psrf__sidebar">
+          <h2 className="psrf__sidebarTitle">Restaurants</h2>
+
+          <div className="psrf__controls">
+            <label htmlFor="sortSelect">Sort by:</label>
+            <select id="sortSelect" defaultValue="rating">
+              <option value="rating">Rating</option>
+              <option value="distance">Nearest</option>
+              <option value="price">Price</option>
+            </select>
+          </div>
+
+          <ul className="psrf__list">
+            <li className="psrf__listItem">Restaurant A</li>
+            <li className="psrf__listItem">Restaurant B</li>
+            <li className="psrf__listItem">Restaurant C</li>
+          </ul>
+        </aside>
+      </main>
     </div>
-  )
+  );
 }

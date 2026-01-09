@@ -1,0 +1,62 @@
+.psrf__topbar {
+  padding: 12px 16px;
+  border-bottom: 1px solid #ccc;
+}
+
+.psrf__title {
+  margin: 0;
+  font-size: 20px;
+}
+
+.psrf__layout {
+  display: flex;
+  height: calc(100vh - 54px);
+}
+
+.psrf__map {
+  flex: 2;
+  min-width: 0;
+  background: #eee;
+}
+
+.psrf__mapPlaceholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 16px;
+}
+
+.psrf__sidebar {
+  flex: 1;
+  min-width: 320px;
+  padding: 16px;
+  border-left: 1px solid #ccc;
+  overflow-y: auto;
+  background: #fff;
+}
+
+.psrf__sidebarTitle {
+  margin: 0 0 12px;
+}
+
+.psrf__controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.psrf__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.psrf__listItem {
+  padding: 10px 8px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
